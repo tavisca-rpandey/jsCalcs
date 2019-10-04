@@ -5,46 +5,43 @@ var Calci=function Calculator()
     var operand1='';
     var operand2='';
     var operator='';
+    var calcOps=['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+']
 
-    var calciElements=['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+']
+
     var body = document.getElementsByTagName('body')[0];
-    var tbl = document.createElement('table');
+
+    var jTable = document.createElement('table');
+    jTable.style.width = '40%';
+    jTable.style.height = '40%'
+    jTable.setAttribute('border', '1');
     
-    tbl.style.width = '40%';
-    tbl.style.height = '40%'
-    tbl.setAttribute('border', '1');
-    
-    var tbdy = document.createElement('tbody');
+    var jBody = document.createElement('tbody');
     
     var tr = document.createElement('tr');
     var td = document.createElement('td');
 
- 
+    var numBar=document.createElement('input');
+    numBar.type="text";
+    numBar.style.width='100%';
+    numBar.style.height='100%';
+    numBar.style.textAlign='center';
 
-    var inputBar=document.createElement('input');
-    inputBar.type="text";
-    inputBar.setAttribute('id','calciDisplay');
-
-    inputBar.style.width='100%';
-    inputBar.style.height='100%';
-    inputBar.style.textAlign='center';
     td.colSpan='4';
     td.style.width='100%';
-
-    td.appendChild(inputBar);
+    td.appendChild(numBar);
     tr.appendChild(td);
-    tbdy.appendChild(tr);
+    jBody.appendChild(tr);
 
     var index=0;
+
     for (var i = 0; i < 4; i++) 
     {
         var tr = document.createElement('tr');
         for (var j = 0; j < 4; j++) 
         {
             var td = document.createElement('td');
-            td.innerHTML=calciElements[index];
-
-            if(IsOperator(calciElements[index]))
+            td.innerHTML=calcOps[index];
+            if(IsOperator(calcOps[index]))
             {
                 td.onclick=Calculate;
                 td.style.width='25%'
@@ -60,20 +57,17 @@ var Calci=function Calculator()
                 td.style.textAlign='center';
                 
             }               
-            
-
             index++;
             tr.appendChild(td)
-        
         }
-        tbdy.appendChild(tr);
+        jBody.appendChild(tr);
     }
-    tbl.appendChild(tbdy);
-    body.appendChild(tbl);
+    jTable.appendChild(jBody);
+    body.appendChild(jTable);
 
-    function IsOperator(data)
+    function IsOperator(op)
     {
-        if(data=='/' || data=='+'||data=='-'||data=='*'||data=='=')
+        if(op=='/' || op=='+'||op=='-'||op=='*'||op=='=')
             return true;
         return false;
     }
@@ -93,7 +87,7 @@ var Calci=function Calculator()
                 }
                 else{
                 operator=event.target.innerHTML;
-                inputBar.value+=operator;
+                numBar.value+=operator;
                 }
             }
             else
@@ -102,33 +96,33 @@ var Calci=function Calculator()
                 switch(operator)
                 {
                     case '+':
-                        inputBar.value=parseFloat(operand1)+parseFloat(operand2);
+                        numBar.value=parseFloat(operand1)+parseFloat(operand2);
                     
                     break;
                     
                     case '-':
-                        inputBar.value=parseFloat(operand1)-parseFloat(operand2);
+                        numBar.value=parseFloat(operand1)-parseFloat(operand2);
                     break;
                     
                     case '/':
-                        inputBar.value=parseFloat(operand1)/parseFloat(operand2);
+                        numBar.value=parseFloat(operand1)/parseFloat(operand2);
                     break;
                     
                     case '*':
-                        inputBar.value=parseFloat(operand1)*parseFloat(operand2);
+                        numBar.value=parseFloat(operand1)*parseFloat(operand2);
                     break;
                     
                 }
                 operator=event.target.innerHTML;
                 if(operator=='=')
                 {                
-                    operand1=inputBar.value;
+                    operand1=numBar.value;
                     operator='';
                     operand2='';
                 }
                 {
-                operand1=inputBar.value;
-                inputBar.value+=operator;
+                operand1=numBar.value;
+                numBar.value+=operator;
                 operand2='';
                 }
             }
@@ -147,7 +141,7 @@ var Calci=function Calculator()
         else{
             operand2+=event.target.innerHTML;
         }
-        inputBar.value+=event.target.innerHTML;
+        numBar.value+=event.target.innerHTML;
     }
 
 }
